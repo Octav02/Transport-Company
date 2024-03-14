@@ -1,4 +1,4 @@
-package ro.mpp2024.transportcompany.model;
+package ro.mpp2024.model;
 
 import java.io.Serializable;
 import java.util.Objects;
