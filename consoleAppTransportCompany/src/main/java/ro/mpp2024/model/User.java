@@ -10,7 +10,6 @@ public class User extends Entity<Long> implements Serializable {
     private String lastName;
     private String password;
 
-
     public User() {
         super();
     }

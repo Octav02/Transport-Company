@@ -116,7 +116,7 @@ public class UserDBRepository implements UserRepository {
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
             long id = resultSet.getLong("id");
-            user = new User(id, firstName, lastName, username, password);
+            user = new User(id, username, firstName, lastName, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

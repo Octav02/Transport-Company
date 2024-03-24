@@ -5,19 +5,19 @@ import java.util.List;
 
 public class Booking extends Entity<Long> implements Serializable {
     private String clientName;
-    private List<String> reservedSeats;
+    private List<Integer> reservedSeats;
     private Trip trip;
 
     public Booking() {
     }
 
-    public Booking(String clientName, List<String> reservedSeats, Trip trip) {
+    public Booking(String clientName, List<Integer> reservedSeats, Trip trip) {
         this.clientName = clientName;
         this.reservedSeats = reservedSeats;
         this.trip = trip;
     }
 
-    public Booking(Long id, String clientName, List<String> reservedSeats, Trip trip) {
+    public Booking(Long id, String clientName, List<Integer> reservedSeats, Trip trip) {
         this.id = id;
         this.clientName = clientName;
         this.reservedSeats = reservedSeats;
@@ -32,11 +32,11 @@ public class Booking extends Entity<Long> implements Serializable {
         this.clientName = clientName;
     }
 
-    public List<String> getReservedSeats() {
+    public List<Integer> getReservedSeats() {
         return reservedSeats;
     }
 
-    public void setReservedSeats(List<String> reservedSeats) {
+    public void setReservedSeats(List<Integer> reservedSeats) {
         this.reservedSeats = reservedSeats;
     }
 

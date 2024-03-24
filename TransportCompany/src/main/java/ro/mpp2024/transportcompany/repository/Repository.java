@@ -8,5 +8,4 @@ public interface Repository<T,Tid> {
     void update(T elem, Tid id);
     T findById(Tid id);
     Iterable<T> findAll();
-    Collection<T> getAll();
 }
