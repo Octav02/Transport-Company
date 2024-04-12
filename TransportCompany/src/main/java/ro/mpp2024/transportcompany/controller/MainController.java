@@ -4,16 +4,25 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ro.mpp2024.transportcompany.dtos.BookingSeatDTO;
 import ro.mpp2024.transportcompany.dtos.TripSeatsDTO;
 import ro.mpp2024.transportcompany.model.Trip;
+import ro.mpp2024.transportcompany.model.User;
 import ro.mpp2024.transportcompany.service.Service;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,6 +51,7 @@ public class MainController {
     private ObservableList<BookingSeatDTO> bookingModel = FXCollections.observableArrayList();
 
     private Service service;
+    private User loggedInUser;
 
     public MainController() {
         logger.info("Creating MainController");
@@ -107,9 +117,6 @@ public class MainController {
     }
 
     private void initBookingAvailableData() {
-        //The table should contain all the seats of the trip
-        //If the seat is already booked, the reservedFor column should contain the name of the client
-        //If the seat is not booked, the reservedFor column should be -
 
         List<BookingSeatDTO> bookingSeatDTOS = service.getBookingSeatDTOsForTrip(currentTrip.getId());
         bookingModel.setAll(bookingSeatDTOS);
@@ -143,9 +150,12 @@ public class MainController {
 
     }
 
-    public void setService(Service service) {
+    public void setService(Service service, User loggedInUser) {
         logger.info("Setting service");
         this.service = service;
+        logger.info("Setting logged in user as {}", loggedInUser);
+        this.loggedInUser = loggedInUser;
+
         initData();
     }
 
@@ -156,6 +166,48 @@ public class MainController {
 
         if (currentTrip != null) {
             initBookingAvailableData();
+        }
+    }
+
+    public void handleLogOut(ActionEvent event) {
+        logger.info("Logging out");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText("Logout successful");
+        alert.setContentText("You have been logged out");
+        alert.showAndWait();
+
+        goToLoginView(event);
+    }
+
+    private void goToLoginView(ActionEvent event) {
+        logger.info("Going to login view");
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/ro/mpp2024/transportcompany/login-view.fxml"));
+            AnchorPane root = fxmlLoader.load();
+            LoginController loginController = fxmlLoader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    System.out.println("Stage is closing");
+                }
+            });
+
+            loginController.setService(service);
+
+            stage.show();
+        } catch (IOException e) {
+            logger.error(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error going to login view");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 }

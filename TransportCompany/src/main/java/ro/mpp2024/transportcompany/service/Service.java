@@ -94,4 +94,12 @@ public class Service {
             }
         }
     }
+
+    public User getUserByUsername(String username) {
+        logger.traceEntry("Getting user by username {}", username);
+
+        User user = userRepository.findByUsername(username);
+        logger.traceExit("Returning user {}", user);
+        return user;
+    }
 }

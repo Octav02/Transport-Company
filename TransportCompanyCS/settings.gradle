@@ -1,0 +1,9 @@
+rootProject.name = 'TransportCompanyCS'
+include 'TransportCompanyModel'
+include 'TransportCompanyPersistence'
+include 'TransportCompanyServices'
+include 'TransportCompanyNetworking'
+include 'TransportCompanyServer'
+include 'untitled'
+include 'TransportCompanyClient'
+

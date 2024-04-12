@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ro.mpp2024.transportcompany.MainApplication;
+import ro.mpp2024.transportcompany.model.User;
 import ro.mpp2024.transportcompany.service.Service;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class LoginController {
     public PasswordField passwordTextField;
     private static final Logger logger = LogManager.getLogger();
     private Service service;
+    private User user;
     public LoginController() {
         logger.info("Creating LoginController");
     }
@@ -42,6 +44,7 @@ public class LoginController {
         String password = passwordTextField.getText();
         try {
             if (service.login(username, password)) {
+                user = service.getUserByUsername(username);
                 logger.info("Login successful");
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Login");
@@ -81,7 +84,7 @@ public class LoginController {
             stage.setScene(scene);
 
             MainController mainController = loader.getController();
-            mainController.setService(service);
+            mainController.setService(service,user);
 
             stage.show();
 
