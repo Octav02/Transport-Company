@@ -1,0 +1,79 @@
+syntax="proto3";
+package ro.mpp2024.protobuffprotocol;
+import "google/protobuf/timestamp.proto";
+
+message User {
+  string username = 1;
+  string password = 2;
+}
+
+message Trip {
+  int64 id = 1;
+  google.protobuf.Timestamp departureTime = 2;
+  int32 numberOfSeats = 3;
+  string destination = 4;
+}
+
+message Booking {
+  string clientName = 1;
+  Trip trip = 2;
+  repeated int32 seats = 3;
+}
+
+message BookingSeat {
+  int32 seatNumber = 1;
+  string clientName = 2;
+}
+
+message TripSeats {
+  int64 tripId = 1;
+  string destination = 2;
+  google.protobuf.Timestamp departureTime = 3;
+  int32 availableSeats = 4;
+}
+
+message Request {
+  enum Type {
+    Unknown = 0;
+    Login = 1;
+    Logout = 2;
+    GetTrip = 3;
+    GetTripsWithSeats = 4;
+    GetBookingsForTrip = 5;
+    AddBooking = 6;
+    GetUser = 7;
+  }
+
+  Type type = 1;
+
+  oneof payload {
+    User user = 2;
+    Trip trip = 3;
+    Booking booking = 4;
+    TripSeats tripSeats = 5;
+    string username = 6;
+    int64 id = 7;
+  }
+}
+
+message Response {
+  enum Type {
+    Unknown = 0;
+    Ok = 1;
+    Error = 2;
+    GetUser = 3;
+    GetTripsWithSeats = 4;
+    GetBookingsForTrip = 5;
+    GetTrip = 6;
+    SeatsUpdated = 7;
+  }
+
+  Type type = 1;
+
+  string error = 2;
+  User user = 3;
+  repeated TripSeats trips = 4;
+  repeated BookingSeat bookings = 5;
+  Trip trip = 6;
+
+}

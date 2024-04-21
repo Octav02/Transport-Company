@@ -5,6 +5,8 @@
       <module name="TransportCompanyClient" target="19" />
       <module name="TransportCompanyClient.main" target="19" />
       <module name="TransportCompanyClient.test" target="19" />
+      <module name="TransportCompanyCS.proto.main" target="19" />
+      <module name="TransportCompanyCS.proto.test" target="19" />
       <module name="TransportCompanyCS.untitled.main" target="19" />
       <module name="TransportCompanyCS.untitled.test" target="19" />
     </bytecodeTargetLevel>

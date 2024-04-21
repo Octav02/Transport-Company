@@ -33,5 +33,6 @@ test {
 }
 
 application {
-    mainClassName = "ro.mpp2024.StartRpcServer"
+//    mainClassName = "ro.mpp2024.StartRpcServer"
+    mainClassName = "ro.mpp2024.StartProtoServer"
 }

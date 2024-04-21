@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransportCompanyService {
     boolean login(String username, String password, TransportCompanyObserver client);
-    void logout(User user, TransportCompanyObserver client);
+    void    logout(User user, TransportCompanyObserver client);
 
     List<TripSeatsDTO> getAllTripsWithAvailableSeats();
 

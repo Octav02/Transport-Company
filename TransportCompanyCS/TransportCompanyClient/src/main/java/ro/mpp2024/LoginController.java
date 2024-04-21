@@ -27,13 +27,21 @@ public class LoginController {
     public void handleLogin(ActionEvent event) {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
-        if (service.login(username, password, mainController)) {
-            user = service.getUserByUsername(username);
-            System.out.println("Login successful");
-            goToMainView(event);
-        } else {
+        try {
+            if (service.login(username, password, mainController)) {
+                user = service.getUserByUsername(username);
+                System.out.println("Login successful");
+                ((Node)event.getSource()).getScene().getWindow().hide();
+                goToMainView(event);
+            } else {
+                System.out.println("Login failed");
+            }
+
+        }
+        catch (Exception e) {
             System.out.println("Login failed");
         }
+
     }
 
     private void goToMainView(ActionEvent event) {

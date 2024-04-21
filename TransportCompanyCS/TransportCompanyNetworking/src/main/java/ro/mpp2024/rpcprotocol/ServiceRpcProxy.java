@@ -1,7 +1,9 @@
 package ro.mpp2024.rpcprotocol;
 
+import ro.mpp2024.dto.BookingDTO;
 import ro.mpp2024.dto.BookingSeatDTO;
 import ro.mpp2024.dto.TripSeatsDTO;
+import ro.mpp2024.dto.UserDTO;
 import ro.mpp2024.model.Booking;
 import ro.mpp2024.model.Trip;
 import ro.mpp2024.model.User;
@@ -37,7 +39,8 @@ public class ServiceRpcProxy implements TransportCompanyService {
     public boolean login(String username, String password, TransportCompanyObserver client) {
         initializeConnection();
         User user = new User(username, password);
-        Request request = new Request.Builder().type(RequestType.LOGIN).data(user).build();
+        UserDTO userDTO = new UserDTO(username, password);
+        Request request = new Request.Builder().type(RequestType.LOGIN).data(userDTO).build();
         sendRequest(request);
         Response response = readResponse();
         if (response.type() == ResponseType.OK) {
@@ -108,6 +111,8 @@ public class ServiceRpcProxy implements TransportCompanyService {
         Request request = new Request.Builder().type(RequestType.LOGOUT).data(user).build();
         sendRequest(request);
         Response response = readResponse();
+        //TODO:CHECK
+        closeConnection();
         if (response.type() == ResponseType.ERROR) {
             String err = response.data().toString();
             throw new IllegalArgumentException(err);
@@ -156,7 +161,7 @@ public class ServiceRpcProxy implements TransportCompanyService {
 
     @Override
     public void addBooking(String clientName, Trip trip, List<Integer> seatsToBook, TransportCompanyObserver client) {
-        Request request = new Request.Builder().type(RequestType.ADD_BOOKING).data(new Booking(clientName, seatsToBook, trip)).build();
+        Request request = new Request.Builder().type(RequestType.ADD_BOOKING).data(new BookingDTO(clientName, seatsToBook, trip)).build();
         sendRequest(request);
     }
 

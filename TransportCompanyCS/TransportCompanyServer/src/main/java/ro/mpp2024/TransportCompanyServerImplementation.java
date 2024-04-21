@@ -38,7 +38,8 @@ public class TransportCompanyServerImplementation implements TransportCompanySer
         User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
             System.out.println(loggedClients.size());
-            if (loggedClients.containsKey(username)) {
+            System.out.println(loggedClients.containsKey(username) + " " + username);
+            if (loggedClients.containsKey(username) && loggedClients.get(username) != null && !loggedClients.get(username).equals(client)){
                 return false;
             }
             loggedClients.put(username, client);
@@ -48,11 +49,14 @@ public class TransportCompanyServerImplementation implements TransportCompanySer
     }
 
     @Override
-    public synchronized void logout(User user, TransportCompanyObserver client) {
+    public void logout(User user, TransportCompanyObserver client) {
+        System.out.println(loggedClients.size());
         TransportCompanyObserver localClient = loggedClients.remove(user.getUsername());
         if (localClient == null) {
+            System.out.println("Nasol");
             throw new RuntimeException("User " + user.getUsername() + " is not logged in.");
         }
+        System.out.println(loggedClients.size() + "after logout");
 
     }
 
@@ -107,7 +111,7 @@ public class TransportCompanyServerImplementation implements TransportCompanySer
             executor.execute(client::bookingAdded);
 
         }
-
+        executor.shutdown();
     }
 
     private void validateNewBooking(Booking booking) {

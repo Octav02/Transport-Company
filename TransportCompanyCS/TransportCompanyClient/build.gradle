@@ -33,5 +33,6 @@ javafx {
 
 
 application{
-    mainClass='ro.mpp2024.Main'
+//    mainClass='ro.mpp2024.Main'
+    mainClass='ro.mpp2024.MainProto'
 }

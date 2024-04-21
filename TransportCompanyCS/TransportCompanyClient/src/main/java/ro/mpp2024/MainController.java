@@ -17,6 +17,8 @@ import javafx.animation.PauseTransition;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javafx.scene.Node;
+
 
 public class MainController implements TransportCompanyObserver {
     public TableView<TripSeatsDTO> tripsTableView;
@@ -114,7 +116,14 @@ public class MainController implements TransportCompanyObserver {
     }
 
     public void handleLogOut(ActionEvent event) {
-        service.logout(loggedInUser, this);
+        ((Node)event.getSource()).getScene().getWindow().hide();
+        try {
+            service.logout(loggedInUser, this);
+            Platform.exit();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void setService(TransportCompanyService service, User user) {

@@ -1,5 +1,8 @@
 package ro.mpp2024.rpcprotocol;
 
+import ro.mpp2024.dto.BookingDTO;
+import ro.mpp2024.dto.DTOUtils;
+import ro.mpp2024.dto.UserDTO;
 import ro.mpp2024.model.Booking;
 import ro.mpp2024.model.User;
 import ro.mpp2024.services.TransportCompanyObserver;
@@ -73,10 +76,15 @@ public class ClientRpcWorker implements Runnable, TransportCompanyObserver {
         Response response = null;
         if (request.type() == RequestType.LOGIN) {
             System.out.println("Login request ...");
-            User user = (User) request.data();
+            User user = (User) DTOUtils.getFromDTO((UserDTO) request.data());
             try {
-                server.login(user.getUsername(), user.getPassword(), this);
-                return new Response.Builder().type(ResponseType.OK).build();
+                boolean login = server.login(user.getUsername(), user.getPassword(), this);
+                if (login) {
+                    return new Response.Builder().type(ResponseType.OK).build();
+                }
+                else {
+                    return new Response.Builder().type(ResponseType.ERROR).data("Login failed").build();
+                }
             } catch (Exception e) {
                 connected = false;
                 return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
@@ -84,7 +92,7 @@ public class ClientRpcWorker implements Runnable, TransportCompanyObserver {
         }
         if (request.type() == RequestType.LOGOUT) {
             System.out.println("Logout request");
-            User user = (User) request.data();
+            User user = (User) DTOUtils.getFromDTO((UserDTO) request.data());
             try {
                 server.logout(user, this);
                 connected = false;
@@ -123,8 +131,8 @@ public class ClientRpcWorker implements Runnable, TransportCompanyObserver {
         }
 
         if (request.type() == RequestType.ADD_BOOKING) {
-            System.out.println("Add booking request");
-            Booking booking = (Booking) request.data();
+            System.out.println("Add  booking request");
+            Booking booking = DTOUtils.getFromDTO((BookingDTO) request.data());
             try {
                 server.addBooking(booking.getClientName(), booking.getTrip(), booking.getReservedSeats(), this);
                 return new Response.Builder().type(ResponseType.SEATS_UPDATED).build();
@@ -146,77 +154,6 @@ public class ClientRpcWorker implements Runnable, TransportCompanyObserver {
         return response;
     }
 
-//    private Response handleRequest(Request request) {
-//        Response response = null;
-//        if (request.type() == RequestType.LOGIN) {
-//            System.out.println("Login request ...");
-//            User user = (User) request.data();
-//            try {
-//                server.login(user.getUsername(), user.getPassword(), this);
-//                return new Response.Builder().type(ResponseType.OK).build();
-//            } catch (Exception e) {
-//                connected = false;
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        if (request.type() == RequestType.LOGOUT) {
-//            System.out.println("Logout request");
-//            User user = (User) request.data();
-//            try {
-//                server.logout(user, this);
-//                connected = false;
-//                return new Response.Builder().type(ResponseType.OK).build();
-//            } catch (Exception e) {
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        if (request.type() == RequestType.GET_TRIP) {
-//            System.out.println("Get trip request");
-//            Long id = (Long) request.data();
-//            try {
-//                return new Response.Builder().type(ResponseType.OK).data(server.getTripById(id)).build();
-//            } catch (Exception e) {
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        if (request.type() == RequestType.GET_TRIPS_WITH_SEATS) {
-//            System.out.println("Get trips with seats request");
-//            try {
-//                return new Response.Builder().type(ResponseType.OK).data(server.getAllTripsWithAvailableSeats()).build();
-//            } catch (Exception e) {
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        if (request.type() == RequestType.GET_BOOKINGS_FOR_TRIP) {
-//            System.out.println("Get bookings for trip request");
-//            Long id = (Long) request.data();
-//            try {
-//                return new Response.Builder().type(ResponseType.OK).data(server.getBookingsSeatsForTrip(id)).build();
-//            } catch (Exception e) {
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        if (request.type() == RequestType.ADD_BOOKING) {
-//            System.out.println("Add booking request");
-//            Booking booking = (Booking) request.data();
-//            try {
-//                server.addBooking(booking.getClientName(),booking.getTrip(),booking.getReservedSeats(),this);
-//                return new Response.Builder().type(ResponseType.OK).build();
-//            } catch (Exception e) {
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        if (request.type() == RequestType.GET_USER) {
-//            System.out.println("Get user request");
-//            String username = (String) request.data();
-//            try {
-//                return new Response.Builder().type(ResponseType.OK).data(server.getUserByUsername(username)).build();
-//            } catch (Exception e) {
-//                return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
-//            }
-//        }
-//        return response;
-//    }
 
     @Override
     public void bookingAdded() {

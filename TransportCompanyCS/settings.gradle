@@ -6,4 +6,5 @@ include 'TransportCompanyNetworking'
 include 'TransportCompanyServer'
 include 'untitled'
 include 'TransportCompanyClient'
+include 'proto'
 
