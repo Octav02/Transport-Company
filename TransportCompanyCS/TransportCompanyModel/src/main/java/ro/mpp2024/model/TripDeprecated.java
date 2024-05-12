@@ -1,36 +1,25 @@
 package ro.mpp2024.model;
 
-import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "trips")
-public class Trip  implements ro.mpp2024.model.Entity<Long>, Serializable {
-    @Column(name = "destination")
+public class TripDeprecated implements Entity<Long>, Serializable {
     private String destination;
-    @Column(name = "departure_time")
     private LocalDateTime departureTime;
-    @Column(name = "number_of_seats")
     private int totalNumberOfSeats;
-    @Id
-    @GeneratedValue(generator = "increment")
     private Long id;
 
-    public Trip() {
-        id = 0L;
+    public TripDeprecated() {
     }
 
-    public Trip(String destination, LocalDateTime departureTime, int totalNumberOfSeats) {
-        id = 0L;
+    public TripDeprecated(String destination, LocalDateTime departureTime, int totalNumberOfSeats) {
+        super();
         this.destination = destination;
         this.departureTime = departureTime;
         this.totalNumberOfSeats = totalNumberOfSeats;
     }
 
-    public Trip(Long id, String destination, LocalDateTime departureTime, int totalNumberOfSeats) {
+    public TripDeprecated(Long id, String destination, LocalDateTime departureTime, int totalNumberOfSeats) {
         this.id = id;
         this.destination = destination;
         this.departureTime = departureTime;
@@ -71,11 +60,13 @@ public class Trip  implements ro.mpp2024.model.Entity<Long>, Serializable {
                 '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @Override
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 }

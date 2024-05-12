@@ -4,6 +4,7 @@ import ro.mpp2024.persistance.BookingRepository;
 import ro.mpp2024.persistance.TripRepository;
 import ro.mpp2024.persistance.UserRepository;
 import ro.mpp2024.persistance.dbrepository.*;
+import ro.mpp2024.persistance.hibernate.HibernateTripRepository;
 import ro.mpp2024.services.TransportCompanyService;
 import ro.mpp2024.utils.AbstractServer;
 import ro.mpp2024.utils.RpcConcurrentServer;
@@ -25,7 +26,8 @@ public class StartRpcServer {
         }
 
         UserRepository userRepository = new UserDBRepository(properties);
-        TripRepository tripRepository = new TripDbRepository(properties);
+//        TripRepository tripRepository = new TripDbRepository(properties);
+        TripRepository tripRepository = new HibernateTripRepository();
         BookingRepository bookingRepository = new BookingDBRepository(properties,tripRepository);
 
         TransportCompanyService serverImpl = new TransportCompanyServerImplementation(userRepository, tripRepository, bookingRepository);
