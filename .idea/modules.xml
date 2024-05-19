@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TransportCompanyModel/TransportCompanyCS.TransportCompanyModel.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TransportCompanyModel/TransportCompanyCS.TransportCompanyModel.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mpp-proiect-java-Octav02.iml" filepath="$PROJECT_DIR$/.idea/mpp-proiect-java-Octav02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/restServices/restServices.iml" filepath="$PROJECT_DIR$/restServices/restServices.iml" />
     </modules>
   </component>
 </project>
