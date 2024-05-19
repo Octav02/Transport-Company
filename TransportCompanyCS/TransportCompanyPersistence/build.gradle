@@ -16,6 +16,15 @@ dependencies {
     implementation('org.apache.logging.log4j:log4j-api:2.23.0')
     implementation('org.apache.logging.log4j:log4j-core:2.23.0')
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.3.0'
+    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
+    implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
+
+    // Hibernate Validator
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
+
+    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
+    implementation 'org.hibernate.orm:hibernate-community-dialects:6.4.4.Final'
 
 
     implementation project(':TransportCompanyModel')

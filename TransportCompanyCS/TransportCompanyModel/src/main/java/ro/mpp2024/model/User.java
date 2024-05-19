@@ -3,12 +3,13 @@ package ro.mpp2024.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User extends Entity<Long> implements Comparable<User>, Serializable {
+public class User implements Entity<Long>, Comparable<User>, Serializable {
 
     private String username;
     private String firstName;
     private String lastName;
     private String password;
+    private Long id;
 
 
 
@@ -31,7 +32,7 @@ public class User extends Entity<Long> implements Comparable<User>, Serializable
     }
 
     public User(Long id, String username, String firstName, String lastName, String password) {
-        super(id);
+        this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -97,5 +98,15 @@ public class User extends Entity<Long> implements Comparable<User>, Serializable
     @Override
     public int compareTo(User o) {
         return this.username.compareTo(o.username);
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 }

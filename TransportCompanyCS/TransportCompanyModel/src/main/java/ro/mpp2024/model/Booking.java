@@ -3,7 +3,8 @@ package ro.mpp2024.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class Booking extends Entity<Long> implements Serializable {
+public class Booking implements Entity<Long>, Serializable {
+    private Long id;
     private String clientName;
     private List<Integer> reservedSeats;
     private Trip trip;
@@ -56,5 +57,15 @@ public class Booking extends Entity<Long> implements Serializable {
                 ", trip=" + trip +
                 ", id=" + id +
                 '}';
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 }

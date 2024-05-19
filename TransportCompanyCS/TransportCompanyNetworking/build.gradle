@@ -15,7 +15,7 @@ dependencies {
     implementation('org.apache.logging.log4j:log4j-core:2.23.0')
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.3.0'
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '4.27.0-RC1'
-
+    implementation 'jakarta.persistence:jakarta.persistence-api:2.2.3'
 
     implementation project(':TransportCompanyModel')
     implementation project(':TransportCompanyServices')
